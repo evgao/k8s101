@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: dempapp
+  name: demoapp
+spec:
+  containers:
+  - image: evgao/demoapp:v1
+    name: demoapp
+    # Liveness probe
+    livenessProbe:
+          httpGet:
+            path: /probe/live
+            port: 80
+            scheme: HTTP
+          initialDelaySeconds: 10
+          timeoutSeconds: 2
+          periodSeconds: 10
+    readinessProbe:
+          httpGet:
+            path: /probe/ready
+            port: 80
+            scheme: HTTP
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 2
+    volumeMounts:
+    - name: probe
+      mountPath: "/var/www/html/probe"
+  restartPolicy: Always
+  initContainers:
+  - name: install
+    image: evgao/demoapp:probe
+    command: [ "/bin/sh", "-c" ]
+    args:
+    - cp /probe/* /probefile
+    volumeMounts:
+    - name: probe
+      mountPath: "/probefile"
+  volumes:
+  - name: probe
+    emptyDir: {}

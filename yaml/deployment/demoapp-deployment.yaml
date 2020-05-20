@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: demoapp-deployment
+  name: demoapp-deployment
+spec:
+  minReadySeconds: 30
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  replicas: 3
+  selector:
+    matchLabels:
+      app: demoapp-deployment
+  template:
+    metadata:
+      labels:
+        app: demoapp-deployment
+    spec:
+      containers:
+      - image: evgao/demoapp:v2
+        name: demoapp
