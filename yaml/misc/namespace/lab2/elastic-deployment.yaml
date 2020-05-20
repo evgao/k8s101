@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: elastic
+  labels:
+    tipo: "desarrollo"
+spec:
+  selector:   
+    matchLabels:
+      app: elastic
+  replicas: 1
+  strategy:
+     type: RollingUpdate
+  minReadySeconds: 2
+  template:   # Plantilla que define los containers
+    metadata:
+      labels:
+        app: elastic
+    spec:
+      containers:
+      - name: elastic
+        image: elasticsearch:7.6.0
+        ports:
+        - containerPort: 9200
