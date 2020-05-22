@@ -5,7 +5,7 @@ metadata:
     app: demoapp-deployment
   name: demoapp-deployment
 spec:
-  minReadySeconds: 30
+  minReadySeconds: 10
   strategy:
     type: RollingUpdate
     rollingUpdate:

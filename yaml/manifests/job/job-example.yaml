@@ -12,6 +12,6 @@ spec:
       - name: hello
         image: alpine:latest
         command: ["/bin/sh", "-c"]
-        args: ["eecho hello from $HOSTNAME! && sleep 10"]
+        args: ["echo hello from $HOSTNAME! && sleep 10"]
       #restartPolicy: Never
       restartPolicy: OnFailure
