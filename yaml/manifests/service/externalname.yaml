@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: example-prod
+spec:
+  type: ExternalName
+  externalName: www.cisco.com

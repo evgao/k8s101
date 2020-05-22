@@ -12,7 +12,7 @@ spec:
     metadata:
       labels:
         app: nginx
-        #env: prod
+        env: prod
     spec:
       containers:
       - name: nginx

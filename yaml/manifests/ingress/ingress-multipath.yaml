@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-hello
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: foobar.example.com
+    http:
+      paths:
+      - path: /v1 
+        backend:
+          serviceName: dempappv1
+          servicePort: 80 
+      - path: /v2
+        backend:
+          serviceName: dempappv2
+          servicePort: 80

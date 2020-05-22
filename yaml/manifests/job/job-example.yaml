@@ -3,9 +3,9 @@ kind: Job
 metadata:
   name: job-example
 spec:
-  #backoffLimit: 4
+  backoffLimit: 10
   completions: 4
-  parallelism: 1
+  parallelism: 2
   template:
     spec:
       containers:

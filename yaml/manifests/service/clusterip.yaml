@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  type: NodePort
+  name: demoapp-deployment
+  labels:
+    app: demoapp-deployment
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: demoapp-deployment

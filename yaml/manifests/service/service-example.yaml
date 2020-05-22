@@ -3,10 +3,5 @@ kind: Service
 metadata:
   name: deploy-example
 spec:
-  type: NodePort
-  ports:
-  - port: 80
-    protocol: TCP
-    targetPort: 80
   selector:
-    app: nginx
+    app: demoapp-deployment
