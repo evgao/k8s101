@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: demo-deployment
+  name: demo-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: demo-deployment
+  template:
+    metadata:
+      labels:
+        app: demo-deployment
+    spec:
+      containers:
+      - image: evgao/demoapp:v1
+        name: demoapp
