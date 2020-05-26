@@ -9,7 +9,9 @@ spec:
     command: ["/bin/sh", "-c"]
     args:
     - while true; do
-      sleep 10;
+      cat /mycity/thisismycity;
+      echo;
+      sleep 2;
       done
     volumeMounts:
     - name: config-volume

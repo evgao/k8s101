@@ -26,5 +26,6 @@ spec:
   volumes:
   - name: html
     hostPath:
-      path: /opt/nfs   
+      type: DirectoryOrCreate
+      path: /opt/hostpath-example
 

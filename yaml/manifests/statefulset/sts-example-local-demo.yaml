@@ -29,7 +29,8 @@ spec:
       name: www
     spec:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: manual
+      #storageClassName: manual
+      storageClassName: managed-nfs-storage
       resources:
         requests:
           storage: 1Gi

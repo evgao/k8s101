@@ -1,15 +1,14 @@
-apiVersion: batch/v1
-kind: Job
+#apiVersion: batch/v1
+apiVersion: v1
+kind: Pod
 metadata:
   name: cm-cmd-example
 spec:
-  template:
-    spec:
       containers:
       - name: env
         image: alpine:latest
         command: ["/bin/sh", "-c"]
-        args: ["echo Hello from ${CITY}!"]   
+        args: ["while sleep 2; do echo Hello from ${CITY}; done"]   
         env:
         - name: CITY
           valueFrom:

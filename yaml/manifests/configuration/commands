@@ -1,0 +1,12 @@
+kubectl create cm literal-example --from-literal="city=Boston" --from-literal="state=Massachusetts"
+kubectl create cm dir-example --from-file=manifests/cm/
+kubectl create cm file-example --from-file=manifests/cm/city --from-file=manifests/cm/state
+
+
+kubectl create secret generic literal-example --from-literal=username=example --from-literal=password=mypassword
+kubectl create secret generic dir-example --from-file=manifests/secret/
+kubectl create secret generic file-example --from-file=manifests/secret/username --from-file=manifests/secret/password
+
+
+kubectl create secret generic ssh-key-secret --from-file=ssh-privatekey=/root/.ssh/id_rsa --from-file=ssh-publickey=/root/.ssh/id_rsa.pub
+kubectl create secret docker-registry mydockeraccount --docker-server=https://index.docker.io/v1/ --docker-username=evgao --docker-password=996107dd-22ff-408b-99c4-58b39dc5a7f3 --docker-email evangao@126.com

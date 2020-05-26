@@ -1,7 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: ingress-hello
+  name: ingress-multipath
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
@@ -11,9 +11,9 @@ spec:
       paths:
       - path: /v1 
         backend:
-          serviceName: dempappv1
+          serviceName: demoappv1
           servicePort: 80 
       - path: /v2
         backend:
-          serviceName: dempappv2
+          serviceName: demoappv2
           servicePort: 80

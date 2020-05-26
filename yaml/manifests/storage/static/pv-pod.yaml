@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: task-pv-pod
+  name: static-pv-test
 spec:
   volumes:
-    - name: task-pv-storage
+    - name: mylocalpvcvolume
       persistentVolumeClaim:
-        claimName: task-pv-claim
+        claimName: mylocalpvc
   containers:
     - name: task-pv-container
       image: nginx
@@ -15,6 +15,6 @@ spec:
           name: "http-server"
       volumeMounts:
         - mountPath: "/usr/share/nginx/html"
-          name: task-pv-storage
+          name: mylocalpvcvolume
 
 
