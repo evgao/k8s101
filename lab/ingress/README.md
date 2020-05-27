@@ -1,4 +1,4 @@
-If you are running minikube, please enable the NGINX Ingress controller, run the following command:
+If you are running minikube, please enable the NGINX Ingress controller add-on, run the following command:
 
 ```
 # enable ingress addon
@@ -14,4 +14,4 @@ kubectl apply -f controller-deploy.yaml
 ```
 
 
-Make sure you also have the deployment/service deployed before applying the ingress rules.
+Make sure you also have the underlying deployment/service deployed before applying the ingress rules.

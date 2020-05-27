@@ -4,8 +4,7 @@ This tutorial covers the fundamental building blocks that make up Kubernetes. Un
 and how they are used is crucial to learning how to use the higher level objects and resources.
 
 # Index
-* [Namespaces](#namespaces)
-  * [Exercise: Using Namespaces](#exercise-using-namespaces)
+
 * [Pods](#pods)
   * [Exercise: Creating Pods](#exercise-creating-pods)
 * [Labels and Selectors](#labels-and-selectors)
@@ -20,54 +19,8 @@ and how they are used is crucial to learning how to use the higher level objects
 
 ---
 
-# Namespaces
-Namespaces are a logical cluster or environment. They are the primary method of partitioning a cluster or scoping
-access.
-
----
-
-### Exercise: Using Namespaces
-**Objectives:** Learn how to create and switch between Kubernetes Namespaces using `kubectl`.
-
-**NOTE:** If you are coming from the [cli tutorial](../cli/README.md), you may have completed this already.
-
----
-
-1) List the current namespaces
-```
-$ kubectl get namespaces
-```
-
-2) Create the `dev` namespace
-```
-$ kubectl create namespace dev
-```
-
-3) Create a new context called `minidev` within the `minikube` cluster  as the `minikube` user, with the namespace
- set to `dev`.
-```
-$ kubectl config set-context minidev --cluster=minikube --user=minikube --namespace=dev
-```
-
-4) Switch to the newly created context.
-```
-$ kubectl config use-context minidev
-```
-
----
-
-**Summary:** Namespaces function as the primary method of providing scoped names, access, and act as an umbrella for
-group based resource restriction. Creating and switching between them is quick and easy, but learning to use them is
-essential in the general usage of Kubernetes.
-
----
-
-[Back to Index](#index)
-
----
----
-
 # Pods
+
 A pod is the atomic unit of Kubernetes. It is the smallest _“unit of work”_ or _“management resource”_ within the
 system and is the foundational building block of all Kubernetes Workloads.
 
@@ -475,14 +428,9 @@ $ kubectl describe service loadbalancer
 3) Open a browser and visit the IP noted in the `Loadbalancer Ingress` field. It should directly map to the exposed
 Service.
 
-4) Use the `minikube service` command to open the `NodePort` portion of the `loadbalancer` Service in a new browser
-window.
-```
-$ minikube service -n dev loadbalancer
-```
-
-5) Finally, verify that the generated DNS record has been created for the Service by using nslookup within the
+4) Finally, verify that the generated DNS record has been created for the Service by using nslookup within the
 `example-pod` Pod.
+
 ```
 $ kubectl exec pod-example -- nslookup loadbalancer.dev.svc.cluster.local
 ```

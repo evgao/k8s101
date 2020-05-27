@@ -4,13 +4,6 @@ Workloads within Kubernetes are higher level objects that manage Pods or other h
 
 In **ALL CASES** a Pod Template is included, and acts as the base tier of management.
 
-**Note:** 
-1) If you are coming directly from the previous tutorials (core), you may still be configured to use the
-`minidev` context. Switch to the `minikube` context before proceeding with the rest of the tutorials.
-
-2) Unlike some of the other tutorials, the workload exercises should be cleaned up before moving onto the next
- workload type. The clean-up commands will included after **Summary** section of the exercise.
-
 # Index
 * [ReplicaSets](#replicasets)
   * [Exercise: Understanding ReplicaSets](#exercise-understanding-replicasets)
@@ -27,7 +20,6 @@ In **ALL CASES** a Pod Template is included, and acts as the base tier of manage
   * [Exercise: Creating a Job](#exercise-creating-a-job)
   * [Exercise: Scheduling a CronJob](#exercise-scheduling-a-cronjob)
 * [Helpful Resources](#helpful-resources)
-
 
 ---
 

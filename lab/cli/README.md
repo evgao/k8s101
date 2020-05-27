@@ -6,9 +6,6 @@ is essential to using Kubernetes itself.
 
 ## Index
 * [Syntax Structure](#syntax-structure)
-* [Context and kubeconfig](#context-and-kubeconfig)
-  * [kubectl config](#kubectl-config)
-  * [Exercise: Using Contexts](#exercise-using-contexts)
 * [kubectl Basics](#kubectl-basics)
   * [kubectl get](#kubectl-get)
   * [kubectl create](#kubectl-create)
@@ -57,118 +54,8 @@ $ kubectl delete pod mypod
 ---
 ---
 
+# Kubectl Basics
 
-# Context and kubeconfig
-`kubectl` allows a user to interact with and manage multiple Kubernetes clusters. To do this, it requires what is known
-as a context. A context consists of a combination of `cluster`, `namespace` and `user`.
-* **cluster** - A friendly name, server address, and certificate for the Kubernetes cluster.
-* **namespace (optional)** - The logical cluster or environment to use. If none is provided, it will use the default
-`default` namespace.
-* **user** - The credentials used to connect to the cluster. This can be a combination of client certificate and key,
-username/password, or token.
-
-These contexts are stored in a local yaml based config file referred to as the `kubeconfig`. For \*nix based
-systems, the `kubeconfig` is stored in `$HOME/.kube/config` for Windows, it can be found in
-`%USERPROFILE%/.kube/config`
-
-This config is viewable without having to view the file directly.
-
-**Command**
-```
-$ kubectl config view
-```
-
-**Example**
-```yaml
-$ kubectl config view
-apiVersion: v1
-clusters:
-- cluster:
-    certificate-authority: /Users/example/.minikube/ca.crt
-    server: https://192.168.99.100:8443
-  name: minikube
-contexts:
-- context:
-    cluster: minikube
-    namespace: dev
-    user: minikube
-  name: minidev
-- context:
-    cluster: minikube
-    user: minikube
-  name: minikube
-current-context: minidev
-kind: Config
-preferences: {}
-users:
-- name: minikube
-  user:
-    client-certificate: /Users/example/.minikube/client.crt
-    client-key: /Users/example/.minikube/client.key
-```
-
----
-
-### `kubectl config`
-
-Managing all aspects of contexts is done via the `kubectl config` command. Some examples include:
-* See the active context with `kubectl config current-context`.
-* Get a list of available contexts with `kubectl config get-contexts`.
-* Switch to using another context with the `kubectl config use-context <context-name>` command.
-* Add a new context with `kubectl config set-context <context name> --cluster=<cluster name> --user=<user> --namespace=<namespace>`.
-
-There can be quite a few specifics involved when adding a context, for the available options, please see the
-[Configuring Multiple Clusters](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/)
-Kubernetes documentation.
-
----
-
-### Exercise: Using Contexts
-**Objective:** Create a new context called `minidev` and switch to it.
-
----
-
-1. View the current contexts.
-```
-$ kubectl config get-contexts
-```
-
-2. Create a new context called `minidev` within the `minikube` cluster with the `dev` namespace, as the
-`minikube` user.
-```
-$ kubectl config set-context minidev --cluster=minikube --user=minikube --namespace=dev
-```
-
-3. View the newly added context.
-```
-kubectl config get-contexts
-```
-
-4. Switch to the `minidev` context using `use-context`.
-```
-$ kubectl config use-context minidev
-```
-
-5. View the current active context.
-```
-$ kubectl config current-context
-```
-
----
-
-**Summary:** Understanding and being able to switch between contexts is a base fundamental skill required by every
-Kubernetes user. As more clusters and namespaces are added, this can become unwieldy. Installing a helper
-application such as [kubectx](https://github.com/ahmetb/kubectx) can be quite helpful. Kubectx allows a user to quickly
-switch between contexts and namespaces without having to use the full `kubectl config use-context` command.
-
----
-
-[Back to Index](#index)
-
----
----
-
-## Kubectl Basics
 There are several `kubectl` commands that are frequently used for any sort of day-to-day operations. `get`, `create`,
 `apply`, `delete`, `describe`, and `logs`.  Other commands can be listed simply with `kubectl --help`, or
 `kubectl <command> --help`.
@@ -338,7 +225,7 @@ Events:
   Normal  Pulled                 5s    kubelet, minikube  Container image "nginx:stable-alpine" already present on machine
   Normal  Created                5s    kubelet, minikube  Created container
   Normal  Started                5s    kubelet, minikube  Started container
-  ```
+```
 
 ---
 
@@ -643,6 +530,5 @@ kubectl config delete-context minidev
 * [kubectl Cheat Sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)
 * [kubectl Reference](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands)
 * [Accessing Clusters](https://kubernetes.io/docs/tasks/access-application-cluster/access-cluster/)
-
 
 [Back to Index](#index)

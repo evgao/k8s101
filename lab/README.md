@@ -2,13 +2,15 @@
 
 ## Before you begin
 
-**Make sure you have a Kubernetes Cluster up and running.**
+Please setup your Kubernetes Cluster with **minikube**.
+Some add-ons involved in this lab is only available on **minikube**.
 
-You may setup you cluster with **kubeadm** tool, or with **minikube**
+If you are not running **minikube**, some extra steps may need to be taken to deploy those add-ons.
 
 ---
 
 ## Tutorial Index
+
 * [cli](/cli/README.md) - Covers the basics of using `kubectl` to interact with a Kubernetes cluster.
 * [core](/core/README.md) - Tutorial of the core concepts, or building blocks of Kubernetes.
 * [workloads](/workloads/README.md) - Walkthrough of the different types of application workloads.
