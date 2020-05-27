@@ -122,7 +122,7 @@ $ kubectl proxy
 ```
 **URL**
 ```
-http://127.0.0.1:8001/api/v1/namespaces/defaul/pods/multi-container-example/proxy/
+http://127.0.0.1:8001/api/v1/namespaces/default/pods/multi-container-example/proxy/
 ```
 
 There should be a repeating date-time-stamp.
