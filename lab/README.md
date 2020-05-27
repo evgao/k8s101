@@ -9,7 +9,7 @@ If you are not running **minikube**, some extra steps may need to be taken to de
 
 ---
 
-## Tutorial Index
+## Index
 
 * [cli](/cli/README.md) - Covers the basics of using `kubectl` to interact with a Kubernetes cluster.
 * [core](/core/README.md) - Tutorial of the core concepts, or building blocks of Kubernetes. (pod and service)
