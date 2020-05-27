@@ -1,12 +1,11 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mylocalpvc
+  name: hub-db-dir
 spec:
-  storageClassName: mylocal
-  #storageClassName: managed-nfs-storage
   accessModes:
-    - ReadWriteOnce
+  - ReadWriteOnce
   resources:
     requests:
       storage: 1Gi
+  storageClassName: standard

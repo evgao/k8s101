@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-multipath
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: foobar.example.com
+    http:
+      paths:
+      - path: /v1 
+        backend:
+          serviceName: demoappv1
+          servicePort: 80 
+      - path: /v2
+        backend:
+          serviceName: demoappv2
+          servicePort: 80
