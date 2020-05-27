@@ -69,7 +69,7 @@ $ kubectl proxy
 ```
 **URL**
 ```
-http://127.0.0.1:8001/api/v1/namespaces/dev/pods/pod-example/proxy/
+http://127.0.0.1:8001/api/v1/namespaces/default/pods/pod-example/proxy/
 ```
 
 The default **"Welcome to nginx!"** page should be visible.
@@ -122,7 +122,7 @@ $ kubectl proxy
 ```
 **URL**
 ```
-http://127.0.0.1:8001/api/v1/namespaces/dev/pods/multi-container-example/proxy/
+http://127.0.0.1:8001/api/v1/namespaces/defaul/pods/multi-container-example/proxy/
 ```
 
 There should be a repeating date-time-stamp.
@@ -293,13 +293,13 @@ $ kubectl proxy
 ```
 **URL**
 ```
-http://127.0.0.1:8001/api/v1/namespaces/dev/services/clusterip/proxy/
+http://127.0.0.1:8001/api/v1/namespaces/default/services/clusterip/proxy/
 ```
 
 4) Lastly, verify that the generated DNS record has been created for the Service by using nslookup within the
 `example-pod` Pod that was provisioned in the [Creating Pods](#exercise-creating-pods) exercise.
 ```
-$ kubectl exec pod-example -- nslookup clusterip.dev.svc.cluster.local
+$ kubectl exec pod-example -- nslookup clusterip.default.svc.cluster.local
 ```
 It should return a valid response with the IP matching what was noted earlier when describing the Service.
 
@@ -352,13 +352,13 @@ $ kubectl describe service nodeport
 
 3) Use the `minikube service` command to open the newly exposed `nodeport` Service in a browser.
 ```
-$ minikube service -n dev nodeport
+$ minikube service nodeport
 ```
 
 4) Lastly, verify that the generated DNS record has been created for the Service by using nslookup within
 the `example-pod` Pod.
 ```
-$ kubectl exec pod-example -- nslookup nodeport.dev.svc.cluster.local
+$ kubectl exec pod-example -- nslookup nodeport.default.svc.cluster.local
 ```
 It should return a valid response with the IP matching what was noted earlier when describing the Service.
 
@@ -432,7 +432,7 @@ Service.
 `example-pod` Pod.
 
 ```
-$ kubectl exec pod-example -- nslookup loadbalancer.dev.svc.cluster.local
+$ kubectl exec pod-example -- nslookup loadbalancer.default.svc.cluster.local
 ```
 It should return a valid response with the IP matching what was noted earlier when describing the Service.
 
@@ -464,7 +464,7 @@ $ kubectl describe service externalname
 3) Lastly, look at the generated DNS record has been created for the Service by using nslookup within the
 `example-pod` Pod. It should return the IP of `google.com`.
 ```
-$ kubectl exec pod-example -- nslookup externalname.dev.svc.cluster.local
+$ kubectl exec pod-example -- nslookup externalname.default.svc.cluster.local
 ```
 
 ---
@@ -483,9 +483,7 @@ internal Service discovery methods to reference external entities.
 
 To remove everything that was created in this tutorial, execute the following commands:
 ```
-kubectl delete namespace dev
 kubectl delete -f manifests/metalLB.yaml
-kubectl config delete-context minidev
 kubectl config use-context minikube
 ```
 

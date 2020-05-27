@@ -12,7 +12,7 @@ If you are not running **minikube**, some extra steps may need to be taken to de
 ## Tutorial Index
 
 * [cli](/cli/README.md) - Covers the basics of using `kubectl` to interact with a Kubernetes cluster.
-* [core](/core/README.md) - Tutorial of the core concepts, or building blocks of Kubernetes.
+* [core](/core/README.md) - Tutorial of the core concepts, or building blocks of Kubernetes. (pod and service)
 * [workloads](/workloads/README.md) - Walkthrough of the different types of application workloads.
 * [storage](/storage/README.md) - Explores the relationship between Persistent Volumes, Persistent Volume Claims,
 and Volumes themselves.

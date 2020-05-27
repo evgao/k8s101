@@ -102,8 +102,6 @@ kubectl create -f <path to manifest>
 
 **Examples**
 ```
-$ kubectl create namespace dev
-namespace "dev" created
 $
 $ kubectl create -f manifests/mypod.yaml
 pod "mypod" created
@@ -184,11 +182,11 @@ kubectl describe <type> <name>
 ```
 $ kubectl describe pod mypod
 Name:         mypod
-Namespace:    dev
+Namespace:    default
 Node:         minikube/192.168.99.100
 Start Time:   Sat, 10 Mar 2018 13:12:53 -0500
 Labels:       <none>
-Annotations:  kubectl.kubernetes.io/last-applied-configuration={"apiVersion":"v1","kind":"Pod","metadata":{"annotations":{},"name":"mypod","namespace":"dev"},"spec":{"containers":[{"image":...
+Annotations:  kubectl.kubernetes.io/last-applied-configuration={"apiVersion":"v1","kind":"Pod","metadata":{"annotations":{},"name":"mypod","namespace":"default"},"spec":{"containers":[{"image":...
 Status:       Running
 IP:           172.17.0.6
 Containers:
@@ -249,16 +247,14 @@ $ kubectl logs mypod
 ---
 
 ### Exercise: The Basics
-**Objective:** Explore the basics. Create a namespace, a pod, then use the `kubectl` commands to describe and delete
+**Objective:** Explore the basics. Create a pod, then use the `kubectl` commands to describe and delete
 what was created.
 
-**NOTE:** You should still be using the `minidev` context created earlier.
 
 ---
-
-1) Create the `dev` namespace.
+1) Check namespaces
 ```
-kubectl create namespace dev
+kubectl get ns
 ```
 
 2) Apply the manifest `manifests/mypod.yaml`.
@@ -477,7 +473,7 @@ $ kubectl proxy
 
 3) Access the Pod through the proxy.
 ```
-http://127.0.0.1:8001/api/v1/namespaces/dev/pods/mypod/proxy/
+http://127.0.0.1:8001/api/v1/namespaces/default/pods/mypod/proxy/
 ```
 You should see the "Welcome to nginx!" page.
 
@@ -509,13 +505,6 @@ external IP, or create firewall rules is an incredibly useful tool for troublesh
 **NOTE:** If you are proceeding with the next tutorials, simply delete the pod with:
 ```
 $ kubectl delete pod mypod
-```
-The namespace and context will be reused. 
-
-To remove everything that was created in this tutorial, execute the following commands:
-```
-kubectl delete namespace dev
-kubectl config delete-context minidev
 ```
 
 ---
