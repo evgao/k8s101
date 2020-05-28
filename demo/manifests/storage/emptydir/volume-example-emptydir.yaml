@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: volume-example
+  name: volume-emptydir-example
 spec:
   containers:
   - name: nginx

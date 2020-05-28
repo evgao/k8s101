@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+    name: frontend-ingress
+spec:
+    rules:
+    - host: sampleapp.example.com
+      http:
+        paths:
+        - path: /api
+          backend:
+            serviceName: frontend-svc
+            servicePort: 3000
+        - path: /
+          backend:
+            serviceName: static-svc
+            servicePort: 80

@@ -3,5 +3,5 @@ kind: ConfigMap
 metadata:
   name: manifest-example
 data:
-  city: Boston000000001
+  city: Boston001
   state: Massachusetts
