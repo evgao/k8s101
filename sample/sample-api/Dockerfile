@@ -4,7 +4,7 @@ ADD main.go go.mod go.sum /go/src/app/
 WORKDIR /go/src/app
 RUN go mod download && CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags '-extldflags "-static"' -o app .
 
-FROM scratch
+FROM ubuntu
 WORKDIR /app
 COPY --from=build-env /go/src/app/app .
 ENTRYPOINT [ "./app" ]

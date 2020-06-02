@@ -16,7 +16,7 @@ spec:
         spec:
             containers:
             - image: evgao/demoapp:frontendv1
-              imagePullPolicy: IfNotPresent
+              #imagePullPolicy: Always
               name: frontend
               env:
               - name: REDIS_PASSWORD
