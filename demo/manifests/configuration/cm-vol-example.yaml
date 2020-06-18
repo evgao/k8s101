@@ -16,6 +16,7 @@ spec:
     volumeMounts:
     - name: config-volume
       mountPath: /myconfig
+
     - name: city
       mountPath: /mycity
       readOnly: true
@@ -23,6 +24,9 @@ spec:
   - name: config-volume
     configMap:
       name: manifest-example
+
+
+
   - name: city
     configMap:
       name: manifest-example

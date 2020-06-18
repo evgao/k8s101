@@ -11,6 +11,8 @@ spec:
   serviceName: app
   updateStrategy:
     type: OnDelete
+
+# pod template
   template:
     metadata:
       labels:
@@ -24,6 +26,8 @@ spec:
         volumeMounts:
         - name: www
           mountPath: /data
+
+  # pvc template
   volumeClaimTemplates:
   - metadata:
       name: www

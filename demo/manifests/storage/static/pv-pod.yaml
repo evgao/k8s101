@@ -3,10 +3,6 @@ kind: Pod
 metadata:
   name: static-pv-test
 spec:
-  volumes:
-    - name: mylocalpvcvolume
-      persistentVolumeClaim:
-        claimName: mylocalpvc
   containers:
     - name: task-pv-container
       image: nginx
@@ -18,3 +14,8 @@ spec:
           name: mylocalpvcvolume
 
 
+
+  volumes:
+    - name: mylocalpvcvolume
+      persistentVolumeClaim:
+        claimName: mylocalpvc

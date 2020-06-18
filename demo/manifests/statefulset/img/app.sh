@@ -14,3 +14,9 @@ fi
 
 
 busybox httpd -f -h /data
+
+
+statefulset-0 master
+configmap /etc/master.conf
+statefulset-1 slave
+configmap /etc/slave.conf
