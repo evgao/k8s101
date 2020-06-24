@@ -1,0 +1,422 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  annotations:
+    releaseDay: "20200624"
+  creationTimestamp: null
+  labels:
+    env: prod
+  name: generator-sa
+  namespace: prod
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  annotations:
+    releaseDay: "20200624"
+  labels:
+    env: prod
+  name: generator-role
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  - pods/log
+  verbs:
+  - get
+  - list
+  - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  annotations:
+    releaseDay: "20200624"
+  creationTimestamp: null
+  labels:
+    env: prod
+  name: generator-sa-rolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: generator-role
+subjects:
+- kind: ServiceAccount
+  name: generator-sa
+  namespace: prod
+---
+apiVersion: v1
+data:
+  config.json: |-
+    {
+        "RedisHost": "redis-svc-ext"
+    }
+kind: ConfigMap
+metadata:
+  annotations:
+    releaseDay: "20200624"
+  labels:
+    env: prod
+  name: app-config
+  namespace: prod
+---
+apiVersion: v1
+data:
+  master.conf: |
+    bind 0.0.0.0
+    protected-mode yes
+    port 6379
+    tcp-backlog 511
+    timeout 0
+    tcp-keepalive 300
+    daemonize no
+    supervised no
+    loglevel notice
+    logfile ""
+    requirepass password123
+    pidfile /opt/bitnami/redis/tmp/redis_6379.pid
+    dir /bitnami/redis/data
+  slave.conf: "slaveof redis-0.redis-svc 6379\nmasterauth password123\nrequirepass
+    password123\nslave-read-only yes  \npidfile /opt/bitnami/redis/tmp/redis_6379.pid\ndir
+    /bitnami/redis/data\n"
+kind: ConfigMap
+metadata:
+  annotations:
+    releaseDay: "20200624"
+  labels:
+    env: prod
+  name: redis-configmap
+  namespace: prod
+---
+apiVersion: v1
+data:
+  redis-password: cGFzc3dvcmQxMjM=
+kind: Secret
+metadata:
+  annotations:
+    releaseDay: "20200624"
+  labels:
+    env: prod
+  name: redis-password
+  namespace: prod
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    releaseDay: "20200624"
+  labels:
+    app: frontend
+    env: prod
+  name: frontend-svc
+  namespace: prod
+spec:
+  ports:
+  - port: 3000
+    protocol: TCP
+    targetPort: 3000
+  selector:
+    app: frontend
+    env: prod
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    releaseDay: "20200624"
+  labels:
+    app: redis
+    env: prod
+  name: redis-svc
+  namespace: prod
+spec:
+  clusterIP: None
+  ports:
+  - port: 6379
+  selector:
+    app: redis
+    env: prod
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    releaseDay: "20200624"
+  labels:
+    app: redis
+    env: prod
+  name: redis-svc-ext
+  namespace: prod
+spec:
+  ports:
+  - port: 6379
+  selector:
+    app: redis
+    env: prod
+    statefulset.kubernetes.io/pod-name: redis-0
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    releaseDay: "20200624"
+  labels:
+    app: static
+    env: prod
+  name: static-svc
+  namespace: prod
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: static
+    env: prod
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    releaseDay: "20200624"
+  labels:
+    app: msg-generator-dep
+    env: prod
+  name: api-msg-generator-dep
+  namespace: prod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-msg-generator
+      env: prod
+  template:
+    metadata:
+      annotations:
+        releaseDay: "20200624"
+      labels:
+        app: api-msg-generator
+        env: prod
+    spec:
+      containers:
+      - image: evgao/demoapp:apimsggenerator
+        name: goclient
+      serviceAccountName: generator-sa
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    releaseDay: "20200624"
+  labels:
+    app: frontend
+    env: prod
+  name: frontend
+  namespace: prod
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: frontend
+      env: prod
+  template:
+    metadata:
+      annotations:
+        releaseDay: "20200624"
+      labels:
+        app: frontend
+        env: prod
+    spec:
+      containers:
+      - env:
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: redis-password
+              name: redis-password
+        image: evgao/demoapp:frontendv1
+        name: frontend
+        volumeMounts:
+        - mountPath: /app/config.json
+          name: config-volume
+          subPath: config.json
+      volumes:
+      - configMap:
+          name: app-config
+        name: config-volume
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    releaseDay: "20200624"
+  labels:
+    app: static
+    env: prod
+  name: static
+  namespace: prod
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: static
+      env: prod
+  template:
+    metadata:
+      annotations:
+        releaseDay: "20200624"
+      labels:
+        app: static
+        env: prod
+    spec:
+      containers:
+      - image: evgao/demoapp:staticv1
+        imagePullPolicy: IfNotPresent
+        name: static
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  annotations:
+    releaseDay: "20200624"
+  labels:
+    env: prod
+  name: redis
+  namespace: prod
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: redis
+      env: prod
+  serviceName: redis-svc
+  template:
+    metadata:
+      annotations:
+        releaseDay: "20200624"
+      labels:
+        app: redis
+        env: prod
+    spec:
+      containers:
+      - env:
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: redis-password
+              name: redis-password
+        image: bitnami/redis:latest
+        name: redis
+        ports:
+        - containerPort: 6379
+          name: redis-port
+        volumeMounts:
+        - mountPath: /bitnami/redis/data
+          name: data
+        - mountPath: /opt/bitnami/redis/etc
+          name: conf
+      initContainers:
+      - command:
+        - bash
+        - -c
+        - |
+          set -ex
+          # Generate mysql server-id from pod ordinal index.
+          [[ `hostname` =~ -([0-9]+)$ ]] || exit 1
+          ordinal=${BASH_REMATCH[1]}
+          # Copy appropriate conf.d files from config-map to emptyDir.
+          mkdir -p /opt/bitnami/redis/etc
+          if [[ $ordinal -eq 0 ]]; then
+            #cp /mnt/config-map/master.conf /opt/bitnami/redis/etc/redis.conf
+            cp /mnt/config-map/master.conf /opt/bitnami/redis/etc/redis-default.conf
+          else
+            #cp /mnt/config-map/slave.conf /opt/bitnami/redis/etc/redis.conf
+            cp /mnt/config-map/slave.conf /opt/bitnami/redis/etc/redis-default.conf
+          fi
+        image: redis:4.0.9
+        name: init-redis
+        volumeMounts:
+        - mountPath: /opt/bitnami/redis/etc
+          name: conf
+        - mountPath: /mnt/config-map
+          name: config-map
+      volumes:
+      - emptyDir: {}
+        name: conf
+      - configMap:
+          name: redis-configmap
+        name: config-map
+  volumeClaimTemplates:
+  - metadata:
+      labels:
+        env: prod
+      name: data
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 5Gi
+      storageClassName: manual
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    releaseDay: "20200624"
+  labels:
+    env: prod
+  name: frontend-ingress
+  namespace: prod
+spec:
+  rules:
+  - host: sampleapp.example.com
+    http:
+      paths:
+      - backend:
+          serviceName: frontend-svc
+          servicePort: 3000
+        path: /api
+      - backend:
+          serviceName: static-svc
+          servicePort: 80
+        path: /
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  annotations:
+    releaseDay: "20200624"
+  labels:
+    env: prod
+    type: local
+  name: redispv0
+spec:
+  accessModes:
+  - ReadWriteOnce
+  capacity:
+    storage: 5Gi
+  hostPath:
+    path: /tmp/redis0
+  storageClassName: manual
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  annotations:
+    releaseDay: "20200624"
+  labels:
+    env: prod
+    type: local
+  name: redispv1
+spec:
+  accessModes:
+  - ReadWriteOnce
+  capacity:
+    storage: 5Gi
+  hostPath:
+    path: /tmp/redis1
+  storageClassName: manual

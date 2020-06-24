@@ -1,0 +1,9 @@
+bases:
+- ../../base/
+namespace: prod
+commonLabels:
+  env: prod
+commonAnnotations:
+  releaseDay: "20200624"
+patchesStrategicMerge:
+- static-svc-prod.yaml

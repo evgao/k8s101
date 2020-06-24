@@ -1,0 +1,7 @@
+resources:
+- redis-configmap-stateful.yaml
+- redis-externalsvc.yaml
+- redis-headless.yml
+- redis-pv.yaml
+- redis-secret.yaml
+- redis-statefulset-rp.yaml

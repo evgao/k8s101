@@ -1,0 +1,3 @@
+resources:
+- deployment-static.yml
+- static-svc.yml

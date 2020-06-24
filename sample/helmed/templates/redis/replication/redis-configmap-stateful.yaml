@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-configmap
+data:
+  master.conf: |
+    bind 0.0.0.0
+    protected-mode yes
+    port 6379
+    tcp-backlog 511
+    timeout 0
+    tcp-keepalive 300
+    daemonize no
+    supervised no
+    loglevel notice
+    logfile ""
+    requirepass password123
+    pidfile /opt/bitnami/redis/tmp/redis_6379.pid
+    dir /bitnami/redis/data
+  slave.conf: |
+    slaveof redis-0.redis-svc 6379
+    masterauth password123
+    requirepass password123
+    slave-read-only yes  
+    pidfile /opt/bitnami/redis/tmp/redis_6379.pid
+    dir /bitnami/redis/data
