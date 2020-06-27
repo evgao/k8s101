@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata: 
+  name: cpu-demo
+  namespace: default
+  annotations:
+    kubernetes.io/description: "demo for cpu requests and"
+spec:
+  containers:
+  - name: stress-cpu
+    image: vish/stress
+    resources:
+      requests:     # 请求的资源
+        cpu: 250m
+      limits:
+        cpu: 500m    # 上限资源
+    args:
+    - -cpus          # 测试分配的总cpu数
+    - "1"

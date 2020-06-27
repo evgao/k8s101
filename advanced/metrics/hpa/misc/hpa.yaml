@@ -1,0 +1,12 @@
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: php-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: php-hpa-deployment
+  minReplicas: 1 #pod最小数量
+  maxReplicas: 10 #pod最大数量
+  targetCPUUtilizationPercentage: 10 #cpu使用率超过10%进行扩容，小于10%缩容

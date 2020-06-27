@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: limitrange-test
+  namespace: demo
+spec:
+  limits:
+  - type: Container       #资源类型
+    max:
+      cpu: "1"            #限定最大CPU
+      memory: "1Gi"       #限定最大内存
+    min:
+      cpu: "100m"         #限定最小CPU
+      memory: "100Mi"     #限定最小内存
+    default:
+      cpu: "900m"         #默认CPU限定
+      memory: "800Mi"     #默认内存限定
+    defaultRequest:
+      cpu: "200m"         #默认CPU请求
+      memory: "200Mi"     #默认内存请求
+    #maxLimitRequestRatio:
+    #  cpu: 2              #限定CPU limit/request比值最大为2  
+    #  memory: 1.5         #限定内存limit/request比值最大为1.5
+  - type: Pod
+    max:
+      cpu: "2"            #限定Pod最大CPU
+      memory: "2Gi"       #限定Pod最大内存
+  - type: PersistentVolumeClaim
+    max:
+      storage: 2Gi        #限定PVC最大的requests.storage
+    min:
+      storage: 1Gi        #限定PVC最小的requests.storage

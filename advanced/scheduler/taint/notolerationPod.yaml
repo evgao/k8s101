@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: notoleration-pod
+spec:
+  nodeSelector:
+    kubernetes.io/hostname: node02
+  containers:
+  - name: test
+    image: evgao/demoapp:v1

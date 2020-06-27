@@ -1,0 +1,56 @@
+# clusterrole
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: log-reader
+rules:
+- apiGroups: 
+  - ""
+  resources:
+  - pods
+  - pods/log
+  verbs: 
+  - get
+  - list
+  - watch
+
+---
+# service account
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+    name: log-reader
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: log-reader
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: log-reader
+subjects:
+- kind: ServiceAccount
+  name: log-reader
+  namespace: default
+
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: logreader-pod
+  namespace: default
+spec:
+  serviceAccountName: log-reader
+  containers:
+  - name: testcontainer
+    image: bitnami/kubectl
+    env:
+    - name: CURLIT
+      value:  'curl -k -s https://kubernetes/api/v1/namespaces/default/pods/logreader-pod/log  --header "Authorization: Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)"'
+    command:
+    - /bin/sh
+    - -c
+    args:
+    - while sleep 2; do date; done

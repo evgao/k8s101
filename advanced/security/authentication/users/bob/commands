@@ -1,0 +1,37 @@
+openssl genrsa -out bob.key 2048
+openssl req -in bob.csr -text
+
+openssl req -new -key bob.key -out bob.csr -subj "/CN=bob/O=alphateam"
+
+kubectl apply -f bobCSR.yaml
+
+kubectl get csr
+kubectl certificate approve bob-csr
+kubectl get csr
+
+kubectl get csr bob-csr -ojsonpath='{.status.certificate}' | base64 -d
+kubectl get csr bob-csr -ojsonpath='{.status.certificate}' | base64 -d > bob.crt
+
+kubectl --client-key=bob.key --client-certificate=bob.crt get nodes
+kubectl config set-cluster mycluster --server https://10.0.0.2:6443 --certificate-authority /etc/kubernetes/pki/ca.crt --embed-certs  --kubeconfig mycluster.kubeconfig
+kubectl config set-credentials bob --client-key ./bob.key  --client-certificate ./bob.crt --embed-certs --kubeconfig mycluster.kubeconfig
+
+kubectl config set-context bob@mycluster --cluster mycluster --user bob --kubeconfig mycluster.kubeconfig
+kubectl config use-context bob@mycluster --kubeconfig mycluster.kubeconfig
+
+
+
+kubectl --kubeconfig mycluster.kubeconfig auth can-i create deployment
+kubectl --kubeconfig mycluster.kubeconfig auth can-i create podsss
+kubectl --kubeconfig mycluster.kubeconfig auth can-i create pods
+kubectl --kubeconfig mycluster.kubeconfig auth can-i create pod
+kubectl --kubeconfig mycluster.kubeconfig auth can-i
+kubectl --kubeconfig mycluster.kubeconfig config view
+kubectl --kubeconfig mycluster.kubeconfig config
+kubectl --kubeconfig mycluster.kubeconfig cofnig
+kubectl --kubeconfig mycluster.kubeconfig
+kubectl --kubeconfig mycluster.kubeconfig auth
+kubectl --kubeconfig mycluster.kubeconfig whoami
+kubectl --kubeconfig mycluster.kubeconfig get node
+kubectl --kubeconfig mycluster.kubeconfig config use-context bob-context
+kubectl --kubeconfig mycluster.kubeconfig use-context bob-context

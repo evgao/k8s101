@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-qos-besteffort
+  labels:
+    name: nginx-qos-besteffort
+spec:
+  containers:
+  - name: nginx-qos-besteffort
+    image: nginx:1.7.9
+    imagePullPolicy: IfNotPresent
+    ports: 
+    - name: nginx-port-80
+      protocol: TCP
+      containerPort: 80

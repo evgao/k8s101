@@ -1,0 +1,19 @@
+kind: HorizontalPodAutoscaler
+apiVersion: autoscaling/v2beta2
+metadata:
+  name: prometheus-demo-app
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: promdemo
+  minReplicas: 1
+  maxReplicas: 10
+  metrics:
+  - type: Pods
+    pods:
+      metric:
+        name: custom_metric_counter_total_by_pod
+      target:
+        type: AverageValue
+        averageValue: "3"

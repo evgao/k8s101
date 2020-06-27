@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: php-hpa-deployment
+  labels:
+    app: php-hpa
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: php-hpa
+  template:
+    metadata:
+      labels:
+        app: php-hpa
+    spec:
+      containers:
+      - name: php-hpa
+        image: evgao/demoapp:hpa
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 200m

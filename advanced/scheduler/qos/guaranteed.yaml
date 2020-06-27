@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-qos-guaranteed
+  labels:
+    name: nginx-qos-guaranteed
+spec:
+  containers:
+  - name: nginx-qos-guaranteed
+    image: nginx:1.7.9
+    imagePullPolicy: IfNotPresent
+    ports:
+    - name: nginx-port-80
+      protocol: TCP
+      containerPort: 80
+    resources:
+      requests:
+        cpu: 200m
+        memory: 256Mi
+      limits:
+        cpu: 200m
+        memory: 256Mi

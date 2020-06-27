@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: demoapp-required
+spec:
+  containers:
+  - name: demoapp
+    image: evgao/demoapp:v1
+    ports:
+    - containerPort: 80
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - node03

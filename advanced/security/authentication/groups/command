@@ -1,0 +1,14 @@
+openssl genrsa -out user01.key 2048
+openssl req -new -key user01.key -out user01.csr -subj "/CN=user01/O=alphateam"
+openssl x509 -req -in user01.csr -CA /etc/kubernetes/pki/ca.crt -CAey /etc/kubernetes/pki/ca.key -CAcreateserial -out user01.crt -days 1000
+openssl x509 -req -in user01.csr -CA /etc/kubernetes/pki/ca.crt -CAkey /etc/kubernetes/pki/ca.key -CAcreateserial -out user01.crt -days 1000
+
+ kubectl create clusterrolebinding alphateam --clusterrole=cluster-admin --group=alphateam
+
+ curl  --cacert /etc/kubernetes/pki/ca.crt --cert ./user01.crt --key ./user01.key  https://10.0.0.2:6443/api/v1/namespaces/default/pods/test-d86d6949d-gdrkj
+ curl -X DELETE --cacert /etc/kubernetes/pki/ca.crt --cert ./user01.crt --key ./user01.key  https://10.0.0.2:6443/api/v1/namespaces/default/pods/test-d86d6949d-gdrkj
+
+
+
+ curl --cacert /etc/kubernetes/pki/ca.crt --cert ./user01.crt --key ./user01.key  https://10.0.0.2:6443/api/v1/namespaces/default/pods
+ curl --cacert /etc/kubernetes/pki/ca.crt --cert ./user02.crt --key ./user02.key  https://10.0.0.2:6443/api/v1/namespaces/default/pods

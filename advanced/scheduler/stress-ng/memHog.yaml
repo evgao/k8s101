@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: memoryhog
+spec:
+  restartPolicy: Never
+  containers:
+  - name: memoryhog
+    image: evgao/demoapp:v1
+    resources:
+      requests:
+        memory: 128Mi
+      limits:
+        memory: 128Mi
+    command:
+    - /bin/sh
+    - -c
+    args:
+    - sleep 10; A='A'; while true; do A=$A$A; done

@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-near-pod-on-mars
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: pod-mars
+  template:
+    metadata:
+      labels:
+        app: pod-mars
+    spec:
+      containers:
+      - name: demoapp
+        image: evgao/demoapp:v1
+        ports:
+        - containerPort: 80
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: pod-name
+                operator: In
+                values:
+                - pod-on-mars
+            topologyKey: location

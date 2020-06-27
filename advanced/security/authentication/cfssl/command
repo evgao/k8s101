@@ -1,0 +1,16 @@
+./cfssl genkey cfuser.json | ./cfssljson -bare cfuser
+
+kubectl apply -f cfuserCSR.yaml
+kubectl certificate approve cfuser-csr
+
+kubectl get csr cfuser-csr -o jsonpath='{.status.certificate}'  | base64 -d > cfuser.crt
+
+#kubectl --insecure-skip-tls-verify=true --server='https://10.0.0.2:6443' --client-certificate=./cfuser.crt --client-key=./cfuser-key.pem  get pods
+
+
+kubectl config set-credentials cfuser --client-key ./cfuser-key.pem --client-certificate ./cfuser.crt --embed-certs --kubeconfig mycluster.kubeconfig
+kubectl config set-context cfuser@mycluster --cluster mycluster --user cfuser --kubeconfig mycluster.kubeconfig
+kubectl config use-context cfuser@mycluster --kubeconfig mycluster.kubeconfig
+
+kubectl --kubeconfig mycluster.kubeconfig get pods
+kubectl --kubeconfig mycluster.kubeconfig get deployment --all-namespaces

@@ -1,0 +1,43 @@
+# Generate client key and cert for kubectl
+openssl genrsa -out myaccount.key 2048
+openssl req -new -key andy.key -out andy.csr
+openssl x509 -req -in andy.csr -CA /etc/kubernetes/pki/ca.crt -CAkey /etc/kubernetes/pki/ca.key -CAcreateserial -out andy.crt -days 365
+openssl x509 -in andy.crt -text -noout
+
+
+
+# Configure kubeconfig file
+kubectl config set-credentials andy --client-certificate andy.crt  --client-key andy.key --embed-certs=true
+kubectl config view
+# kubectl config set-cluster
+kubectl config set-context andy@kubernetes --cluster=kubernetes --user=andy
+kubectl config use-context andy@kubernetes
+kubectl config use-context andy@kubernetes
+#kubectl config use-context kube-admin@kubernetes
+
+
+
+# Set kubeconfig file in another location
+#kubectl config set-cluster testCluster --kubeconfig=/tmp/test.conf --server="https://10.0.0.2:6443" --certificate-authority=/etc/kubernetes/pki/ca.crt --embed-certs
+#kubectl config view --kubeconfig=/tmp/test.conf
+
+
+# Verify with curl command
+curl https://10.0.0.2:6443/api/v1/nodes \
+--cacert /etc/kubernetes/pki/ca.crt \
+--cert andy.crt \
+--key andy.key
+
+curl https://10.0.0.2:6443/api/v1/namespaces/default/pods  \
+--cacert /etc/kubernetes/pki/ca.crt  \
+--cert ./andy.crt  \
+--key ./andy.key
+
+
+CA_CERT=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
+NAMESPACE=$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace)
+
+
+curl --cacert $CA_CERT -H "Authorization: Bearer $TOKEN"  \
+"https://kubernetes/api/v1/namespaces/$NAMESPACE/services/"

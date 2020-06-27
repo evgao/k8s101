@@ -1,0 +1,21 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: error
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - non-exist-resource
+  - nodes
+  - pods
+  - pods/log
+  verbs: 
+  - "*"
+- nonResourceURLs:
+  - /healthz
+  - /metrics
+  - /healthz/* 
+  verbs: 
+  - get
+  - post

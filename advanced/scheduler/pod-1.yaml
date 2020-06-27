@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata: 
+  name: test-pod
+spec:
+  containers:
+  - name: testcontainer
+    image: evgao/demoapp:v1
+    resources:
+      requests:
+        cpu: 200m
+        memory: 128Mi
+      limits:
+        cpu: 200m
+        memory: 256Mi

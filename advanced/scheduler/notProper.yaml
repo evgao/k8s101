@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: not-proper
+spec:
+  containers:
+  - name: test
+    image: evgao/demoapp:v1
+    resources:
+      requests:
+        cpu: 1m
+        memory: 1Mi
+      limits:
+        cpu: 10
+        memory: 1Gi

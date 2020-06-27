@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata: 
+  name: cpuhog
+spec:
+  restartPolicy: Never
+  containers:
+  - name: cpuhog
+    image: evgao/demoapp:stress-ng
+    resources:
+      requests:
+        cpu: 100m
+      limits:
+        cpu: 100m
+    command:
+    - /usr/bin/stress-ng
+    - -c 1
+    - --metrics-brief
+

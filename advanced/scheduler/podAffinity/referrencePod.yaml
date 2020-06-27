@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-on-node01
+  labels:
+    pod-name: pod-on-node01
+spec:
+  nodeName:  node01
+  containers:
+  - name: pod-on-node01
+    image: evgao/demoapp:v1
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-on-node02
+  labels:
+    pod-name: pod-on-node02
+spec:
+  nodeName:  node02
+  containers:
+  - name: pod-on-node02
+    image: evgao/demoapp:v1

@@ -1,0 +1,18 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: chris-sa-pod
+  namespace: default
+spec:
+  serviceAccountName: chris-sa
+  containers:
+  - name: testcontainer
+    image: bitnami/kubectl
+    env:
+    - name: CURLIT
+      value:  'curl -k -s https://kubernetes/api/v1/namespaces/default/pods/logreader-pod/log  --header "Authorization: Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)"'
+    command:
+    - /bin/sh
+    - -c
+    args:
+    - while sleep 2; do date; done

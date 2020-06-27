@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-without-req
+#  namespace: demo
+spec:
+  containers:
+  - name: demoapp
+    image: evgao/demoapp:v1

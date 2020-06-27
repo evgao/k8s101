@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+    name: redis
+spec:
+    serviceName: redis-svc
+    replicas: 2
+    selector:
+        matchLabels:
+            app: redis
+    template:
+        metadata:
+            labels:
+                app: redis
+        spec:
+          initContainers:
+          - name: init-redis
+            image: redis:4.0.9
+            command:
+            - bash
+            - "-c"
+            - |
+              set -ex
+              # Generate mysql server-id from pod ordinal index.
+              [[ `hostname` =~ -([0-9]+)$ ]] || exit 1
+              ordinal=${BASH_REMATCH[1]}
+              # Copy appropriate conf.d files from config-map to emptyDir.
+              mkdir -p /opt/bitnami/redis/etc
+              if [[ $ordinal -eq 0 ]]; then
+                #cp /mnt/config-map/master.conf /opt/bitnami/redis/etc/redis.conf
+                cp /mnt/config-map/master.conf /opt/bitnami/redis/etc/redis-default.conf
+              else
+                #cp /mnt/config-map/slave.conf /opt/bitnami/redis/etc/redis.conf
+                cp /mnt/config-map/slave.conf /opt/bitnami/redis/etc/redis-default.conf
+              fi
+            volumeMounts:
+            - name: conf
+              mountPath: /opt/bitnami/redis/etc
+              #subPath: redis.conf
+            - name: config-map
+              mountPath: /mnt/config-map
+            ######
+          containers:
+          - name: redis
+            image: bitnami/redis:latest
+            env:
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: redis-password
+                  key: redis-password
+            ports:
+            - containerPort: 6379
+              name: redis-port
+            volumeMounts:
+            - name: data
+              mountPath: /bitnami/redis/data
+            - name: conf
+              mountPath: /opt/bitnami/redis/etc
+              #subPath: redis-default.conf
+          volumes:
+          - name: conf
+            emptyDir: {}
+          - name: config-map
+            configMap:
+              name: redis-configmap
+    volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: manual
+        resources:
+            requests:
+                storage: 5Gi 

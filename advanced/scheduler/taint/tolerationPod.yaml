@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: toleration-pod
+spec:
+  tolerations:
+  - effect: NoSchedule
+    key: "key1"
+    operator: "Equal"
+    value: "value1"
+    #tolerationSeconds: 60
+    #value: "vaule1"
+  nodeSelector:
+    kubernetes.io/hostname: node02
+  containers:
+  - name: test
+    image: evgao/demoapp:v1

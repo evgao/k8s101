@@ -1,0 +1,10 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: test001
+spec:
+  serviceAccountName:  log-reader
+  containers:
+  - name: test001
+    image: bitnami/kubectl
+    command: [ "sleep", "3600" ]

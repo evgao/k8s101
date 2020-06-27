@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-on-nvme-node
+  labels:
+    pod-name: pod-on-nvme-node
+spec:
+  nodeSelector:
+      disktype: nvme
+  containers:
+  - name: pod-on-nvme
+    image: evgao/demoapp:v1

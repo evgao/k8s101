@@ -1,0 +1,10 @@
+kind: Pod
+apiVersion: v1
+metadata: 
+  name: demo-manually
+spec:
+  nodeName: node02
+  containers:
+  - name: demoapp
+    image: evgao/demoapp:v1
+

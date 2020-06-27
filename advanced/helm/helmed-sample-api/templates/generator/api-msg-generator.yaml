@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  creationTimestamp: null
+  name: generator-sa
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: generator-role
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  - pods/log
+  verbs:
+  - get
+  - list
+  - watch
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  creationTimestamp: null
+  name: generator-sa-rolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: generator-role
+subjects:
+- kind: ServiceAccount
+  name: generator-sa
+  namespace: default
+
+---
+#apiVersion: v1
+#kind: Pod
+#metadata:
+#  name: api-msg-generator-pod
+#spec:
+#  serviceAccountName: generator-sa
+#  containers:
+#  - name: goclinet
+#    #image: evgao/demoapp:clientgo
+#    image: evgao/demoapp:apimsggenerator
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-msg-generator-dep
+  labels:
+    app: msg-generator-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-msg-generator
+  template:
+    metadata:
+      labels:
+        app: api-msg-generator
+    spec:
+      serviceAccountName: generator-sa
+      containers:
+      - name: goclient
+        image: evgao/demoapp:apimsggenerator
+   

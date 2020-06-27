@@ -1,0 +1,9 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: chris-pod
+spec:
+  serviceAccountName: chris-sa
+  containers:
+  - name: chris-cn
+    image: nginx

@@ -1,0 +1,27 @@
+ # Create service accont 
+ kubectl create sa sa01
+
+# Get service account token
+ kubectl get –o yaml sa sa01
+ SA_SECRET="$(kubectl get sa sa01 -o jsonpath='{.secrets[0].name}')"
+
+ kubectl get -o yaml secret "${SA_SECRET}"
+ SA_TOKEN="$(kubectl get secret "${SA_SECRET}" -o jsonpath='{.data.token}' | base64 -d)"
+
+
+# Send request
+ kubectl "--token=${SA_TOKEN}" get nodes
+
+# cp mycluster.kubeconfig here
+ kubectl config set-credentials sa01 "--token=${SA_TOKEN}"  --kubeconfig mycluster.kueconfig
+ kubectl config set-context sa01@mycluster --cluster mycluster --user sa01 --kubeconfig mycluster.kubeconfig
+ kubectl config use-context sa01@mycluster
+
+
+# try to list pods and it will fail
+ kubectl --kubeconfig mycluster.kubeconfig get pods
+
+# grant view clusterrole
+ kubectl create clusterrolebinding sa01-view --clusterrole=view --serviceaccount=default:sa01
+
+# now you should be able to VIEW them, but not able to modify them
