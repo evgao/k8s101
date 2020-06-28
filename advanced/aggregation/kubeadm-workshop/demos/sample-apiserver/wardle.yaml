@@ -1,0 +1,121 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: wardle
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: etcd-pv-claim
+  namespace: wardle
+  labels:
+    app: wardle-apiserver
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: managed-nfs-storage
+---
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+  name: apiserver
+  namespace: wardle
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: wardle:system:auth-delegator
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: system:auth-delegator
+subjects:
+- kind: ServiceAccount
+  name: apiserver
+  namespace: wardle
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: wardle-auth-reader
+  namespace: kube-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: extension-apiserver-authentication-reader
+subjects:
+- kind: ServiceAccount
+  name: apiserver
+  namespace: wardle
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wardle-apiserver
+  namespace: wardle
+  labels:
+    app: wardle-apiserver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wardle-apiserver
+  template:
+    metadata:
+      labels:
+        app: wardle-apiserver
+    spec:
+      tolerations:
+      - key: beta.kubernetes.io/arch
+        value: arm
+        effect: NoSchedule
+      - key: beta.kubernetes.io/arch
+        value: arm64
+        effect: NoSchedule
+      serviceAccountName: apiserver
+      containers:
+      - name: wardle-server
+        image: luxas/sample-apiserver:v0.3.0
+        args:
+        - --etcd-servers=http://localhost:2379
+      - name: etcd
+        image: luxas/etcd:3.0.17
+        args:
+        - etcd
+        - --data-dir=/var/lib/etcd
+        volumeMounts:
+        - mountPath: /var/lib/etcd
+          name: etcd-storage
+      volumes:
+      - name: etcd-storage
+        persistentVolumeClaim:
+          claimName: etcd-pv-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api
+  namespace: wardle
+spec:
+  ports:
+  - port: 443
+    targetPort: 443
+  selector:
+    app: wardle-apiserver
+---
+apiVersion: apiregistration.k8s.io/v1
+kind: APIService
+metadata:
+  name: v1alpha1.wardle.k8s.io
+spec:
+  insecureSkipTLSVerify: true
+  group: wardle.k8s.io
+  groupPriorityMinimum: 1000
+  versionPriority: 5
+  service:
+    name: api
+    namespace: wardle
+  version: v1alpha1

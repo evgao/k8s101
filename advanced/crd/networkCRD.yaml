@@ -1,0 +1,11 @@
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  name: networks.samplecrd.k8s.io # spec.names.plural+"."+spec.group
+spec:
+  group: samplecrd.k8s.io # crd api group
+  version: v1 # crd api version 
+  names:
+    kind: Network  # crd api resource
+    plural: networks  # crd api resource plural
+  scope: Namespaced
