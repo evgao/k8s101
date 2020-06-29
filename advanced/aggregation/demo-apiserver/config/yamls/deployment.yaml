@@ -1,0 +1,45 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: foo-apiserver
+  namespace: default
+  labels:
+    api: foo-apiserver
+    apiserver: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      api: foo-apiserver
+      apiserver: "true"
+  template:
+    metadata:
+      labels:
+        api: foo-apiserver
+        apiserver: "true"
+    spec:
+      containers:
+      - name: apiserver
+        image: demo/api-server:latest
+        command:
+        - "./apiserver"
+        args:
+        - "--etcd-servers=http://etcd-svc:2379"
+        - "--tls-cert-file=/apiserver.local.config/certificates/tls.crt"
+        - "--tls-private-key-file=/apiserver.local.config/certificates/tls.key"
+        - "--audit-log-path=-"
+        - "--audit-log-maxage=0"
+        - "--audit-log-maxbackup=0"
+        volumeMounts:
+        - name: apiserver-certs
+          mountPath: /apiserver.local.config/certificates
+          readOnly: true
+      - name: controller
+        image: demo/controller-manager:latest
+        command:
+        - "./controller-manager"
+      volumes:
+      - name: apiserver-certs
+        secret:
+          secretName: foo-apiserver

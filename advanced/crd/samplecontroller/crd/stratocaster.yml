@@ -1,7 +1,0 @@
-apiVersion: "kool.karmalabs.local/v1"
-kind: Guitar
-metadata:
-  name: stratocaster
-spec:
-  brand: fender
-  review: false

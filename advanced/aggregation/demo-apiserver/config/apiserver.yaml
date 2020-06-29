@@ -1,4 +1,4 @@
-
+---
 apiVersion: apiregistration.k8s.io/v1
 kind: APIService
 metadata:
@@ -32,8 +32,9 @@ spec:
   selector:
     api: foo-apiserver
     apiserver: "true"
+
 ---
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: foo-apiserver
@@ -43,6 +44,10 @@ metadata:
     apiserver: "true"
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      api: foo-apiserver
+      apiserver: "true"
   template:
     metadata:
       labels:
@@ -51,11 +56,8 @@ spec:
     spec:
       containers:
       - name: apiserver
-        image: demo/foo-apiserver:latest
-        volumeMounts:
-        - name: apiserver-certs
-          mountPath: /apiserver.local.config/certificates
-          readOnly: true
+        image: demo/api-server:latest
+        imagePullPolicy: IfNotPresent
         command:
         - "./apiserver"
         args:
@@ -65,31 +67,21 @@ spec:
         - "--audit-log-path=-"
         - "--audit-log-maxage=0"
         - "--audit-log-maxbackup=0"
-        resources:
-          requests:
-            cpu: 100m
-            memory: 20Mi
-          limits:
-            cpu: 100m
-            memory: 30Mi
+        volumeMounts:
+        - name: apiserver-certs
+          mountPath: /apiserver.local.config/certificates
+          readOnly: true
       - name: controller
-        image: demo/foo-apiserver:latest
+        image: demo/controller-manager:latest
+        imagePullPolicy: IfNotPresent
         command:
         - "./controller-manager"
-        args:
-        resources:
-          requests:
-            cpu: 100m
-            memory: 20Mi
-          limits:
-            cpu: 100m
-            memory: 30Mi
       volumes:
       - name: apiserver-certs
         secret:
           secretName: foo-apiserver
 ---
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: etcd
@@ -97,6 +89,9 @@ metadata:
 spec:
   serviceName: "etcd"
   replicas: 1
+  selector:
+    matchLabels:
+      app: etcd
   template:
     metadata:
       labels:
@@ -107,13 +102,6 @@ spec:
       - name: etcd
         image: quay.io/coreos/etcd:latest
         imagePullPolicy: Always
-        resources:
-          requests:
-            cpu: 100m
-            memory: 20Mi
-          limits:
-            cpu: 100m
-            memory: 30Mi
         env:
         - name: ETCD_DATA_DIR
           value: /etcd-data-dir
@@ -149,9 +137,8 @@ spec:
   volumeClaimTemplates:
   - metadata:
      name: etcd-data-dir
-     annotations:
-        volume.beta.kubernetes.io/storage-class: standard
     spec:
+      storageClassName: managed-nfs-storage
       accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:

@@ -5,7 +5,7 @@ metadata:
 subjects:
 - kind: ServiceAccount
   name: redis-operator
-  namespace: redis
+  namespace: default
 roleRef:
   kind: Role
   name: redis-operator
