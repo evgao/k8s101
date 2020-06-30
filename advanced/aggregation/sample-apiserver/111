@@ -1,0 +1,19 @@
+{
+  "kind": "Scale",
+  "apiVersion": "autoscaling/v1",
+  "metadata": {
+    "name": "nginx-deployment-basic",
+    "namespace": "default",
+    "selfLink": "/apis/apps/v1/namespaces/default/deployments/nginx-deployment-basic/scale",
+    "uid": "f7d1d845-be74-4892-aa77-1d9b33c102f5",
+    "resourceVersion": "9830370",
+    "creationTimestamp": "2020-06-29T18:01:27Z"
+  },
+  "spec": {
+    "replicas": 3
+  },
+  "status": {
+    "replicas": 1,
+    "selector": "app=nginx"
+  }
+}
