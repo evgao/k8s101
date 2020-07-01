@@ -3,6 +3,15 @@
   "dependencies": [
     {
       "source": {
+        "git": {
+          "remote": "https://github.com/coreos/kube-prometheus.git",
+          "subdir": "jsonnet/kube-prometheus"
+        }
+      },
+      "version": "release-0.5"
+    },
+    {
+      "source": {
         "local": {
           "directory": "jsonnet/kube-prometheus"
         }

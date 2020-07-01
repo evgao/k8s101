@@ -24,6 +24,16 @@
     {
       "source": {
         "git": {
+          "remote": "https://github.com/coreos/kube-prometheus.git",
+          "subdir": "jsonnet/kube-prometheus"
+        }
+      },
+      "version": "486fa0797bc1556f2540fda4ce4f4d6101a560a7",
+      "sum": "ncjv6GjTLgTF7N9RRyzUMknVZq1Y9f20kBp1AOuq0Es="
+    },
+    {
+      "source": {
+        "git": {
           "remote": "https://github.com/coreos/prometheus-operator.git",
           "subdir": "jsonnet/prometheus-operator"
         }
