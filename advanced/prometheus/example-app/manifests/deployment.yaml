@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: prom-example-app
+  name: prom-example-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prom-example-app
+  template:
+    metadata:
+      labels:
+        app: prom-example-app
+    spec:
+      containers:
+      - name: prom-example-app
+        image: evgao/demoapp:promapp
+        ports:
+        - name: web
+          containerPort: 8080

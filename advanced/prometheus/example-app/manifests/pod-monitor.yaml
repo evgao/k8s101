@@ -1,0 +1,12 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  labels:
+    app: prom-example-app
+  name: prom-example-app-podmon
+spec:
+  selector:
+    matchLabels:
+      app: prom-example-app
+  podMetricsEndpoints:
+  - port: web

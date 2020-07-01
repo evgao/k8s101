@@ -2,6 +2,7 @@ kind: HorizontalPodAutoscaler
 apiVersion: autoscaling/v2beta2
 metadata:
   name: prometheus-demo-app
+  namespace: default
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
