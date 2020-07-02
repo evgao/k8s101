@@ -8,7 +8,9 @@ metadata:
 spec:
   ports:
   - name: http
+    nodePort: 30902
     port: 3000
     targetPort: http
   selector:
     app: grafana
+  type: NodePort

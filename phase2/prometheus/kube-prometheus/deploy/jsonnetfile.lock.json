@@ -1,0 +1,138 @@
+{
+  "version": 1,
+  "dependencies": [
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/brancz/kubernetes-grafana.git",
+          "subdir": "grafana"
+        }
+      },
+      "version": "57b4365eacda291b82e0d55ba7eec573a8198dda",
+      "sum": "92DWADwGjnCfpZaL7Q07C0GZayxBziGla/O03qWea34="
+    },
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/coreos/etcd.git",
+          "subdir": "Documentation/etcd-mixin"
+        }
+      },
+      "version": "15884e90854981494e6889bdb663439612b547a7",
+      "sum": "pk7mLpdUrHuJKkj2vhD6LGMU7P+oYYooBXAeZyZa398="
+    },
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/coreos/kube-prometheus.git",
+          "subdir": "jsonnet/kube-prometheus"
+        }
+      },
+      "version": "f4568b06dca6425b0ffda2e90486eb025328bf36",
+      "sum": "Srp/B6oh85sEpjZxWOVyoBciNn6oA1SkjgLX4hUxsIE="
+    },
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/coreos/prometheus-operator.git",
+          "subdir": "jsonnet/prometheus-operator"
+        }
+      },
+      "version": "e31c69f9b5c6555e0f4a5c1f39d0f03182dd6b41",
+      "sum": "WggWVWZ+CBEUThQCztSaRELbtqdXf9s3OFzf06HbYNA="
+    },
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/grafana/grafonnet-lib.git",
+          "subdir": "grafonnet"
+        }
+      },
+      "version": "5c6e8a8113486cdecd0961730aeaada3e6c69fe7",
+      "sum": "tDuuSKE9f4Ew2bjBM33Rs6behLEAzkmKkShSt+jpAak="
+    },
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/grafana/jsonnet-libs.git",
+          "subdir": "grafana-builder"
+        }
+      },
+      "version": "21b638f4e4922c0b6fde12120ed45d8ef803edc7",
+      "sum": "N65Fv0M2JvFE3GN8ZxP5xh1U5a314ey8geLAioJLzF8="
+    },
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/ksonnet/ksonnet-lib.git",
+          "subdir": ""
+        }
+      },
+      "version": "0d2f82676817bbf9e4acf6495b2090205f323b9f",
+      "sum": "h28BXZ7+vczxYJ2sCt8JuR9+yznRtU/iA6DCpQUrtEg=",
+      "name": "ksonnet"
+    },
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/kubernetes-monitoring/kubernetes-mixin.git",
+          "subdir": ""
+        }
+      },
+      "version": "b71dd35c6a1d509a1ee902eebe7afe943d8ee4b0",
+      "sum": "4ZPoQZ8T+RSR6HJrGxkZsUrGcUNNz1elEmbMrcSr5Bk="
+    },
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/kubernetes-monitoring/kubernetes-mixin.git",
+          "subdir": "lib/promgrafonnet"
+        }
+      },
+      "version": "b71dd35c6a1d509a1ee902eebe7afe943d8ee4b0",
+      "sum": "VhgBM39yv0f4bKv8VfGg4FXkg573evGDRalip9ypKbc="
+    },
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/kubernetes/kube-state-metrics.git",
+          "subdir": "jsonnet/kube-state-metrics"
+        }
+      },
+      "version": "d667979ed55ad1c4db44d331b51d646f5b903aa7",
+      "sum": "cJjGZaLBjcIGrLHZLjRPU9c3KL+ep9rZTb9dbALSKqA="
+    },
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/kubernetes/kube-state-metrics.git",
+          "subdir": "jsonnet/kube-state-metrics-mixin"
+        }
+      },
+      "version": "d667979ed55ad1c4db44d331b51d646f5b903aa7",
+      "sum": "o5avaguRsfFwYFNen00ZEsub1x4i8Z/ZZ2QoEjFMff8="
+    },
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/prometheus/node_exporter.git",
+          "subdir": "docs/node-mixin"
+        }
+      },
+      "version": "4ef4548ad5bd4bc11c7e6b2da569cf1aa05be907",
+      "sum": "3jFV2qsc/GZe2GADswTYqxxP2zGOiANTj73W/VNFGqc="
+    },
+    {
+      "source": {
+        "git": {
+          "remote": "https://github.com/prometheus/prometheus.git",
+          "subdir": "documentation/prometheus-mixin"
+        }
+      },
+      "version": "578f2b797480705be99f44113c64fc6bcb780c67",
+      "sum": "TBq4SL7YsPInARbJqwz25JaBvvAegcnRCsuz3K9niWc=",
+      "name": "prometheus"
+    }
+  ],
+  "legacyImports": false
+}
