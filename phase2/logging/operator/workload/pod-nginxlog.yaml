@@ -1,0 +1,11 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: pod-nginxlog
+spec:
+  containers:
+  - name: nginxlog
+    image: evgao/demoapp:loggenerator-nginx
+    env:
+    - name: "RATE"
+      value: "10000000"

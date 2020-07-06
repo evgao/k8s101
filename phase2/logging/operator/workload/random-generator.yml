@@ -1,0 +1,29 @@
+# ./random-generator.yml
+# The namespace for our log generator
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: random-generator
+---
+# The Deployment which will run our log generator
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: random-generator
+  namespace: random-generator
+  labels:
+    app: random-generator
+spec:
+  selector:
+    matchLabels:
+      app: random-generator
+  template:
+    metadata:
+      labels:
+        app: random-generator
+    spec:
+      containers:
+      - name: random-generator
+        imagePullPolicy: Always
+        # You can build the image off the source code and push to your own docker hub if you prefer.
+        image: chriscmsoft/random-generator:latest

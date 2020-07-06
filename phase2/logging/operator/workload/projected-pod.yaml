@@ -1,0 +1,32 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: test-cm
+data:
+  fluent.conf: |-
+    kind: Pod
+    apiVersion: v1
+    metadata:
+      name: testpodsetting
+    spec:
+      containers:
+      - name: test
+        image: busybox
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: test-pod
+spec:
+  containers:
+  - name: testcontainer
+    image: nginx
+    volumeMounts:
+    - name: test-cm-vol
+      mountPath: /etc/fluentd/
+  volumes:
+  - name: test-cm-vol
+    projected:
+      sources:
+      - configMap: 
+          name: test-cm

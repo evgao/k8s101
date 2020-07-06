@@ -24,9 +24,6 @@ spec:
   - name: config-volume
     configMap:
       name: manifest-example
-
-
-
   - name: city
     configMap:
       name: manifest-example
