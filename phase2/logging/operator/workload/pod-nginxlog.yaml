@@ -8,4 +8,4 @@ spec:
     image: evgao/demoapp:loggenerator-nginx
     env:
     - name: "RATE"
-      value: "10000000"
+      value: "1000"
