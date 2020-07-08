@@ -1,0 +1,17 @@
+apiVersion: keda.k8s.io/v1alpha1
+kind: ScaledObject
+metadata:
+  name: prometheus-scaledobject
+  #namespace: default
+spec:
+  scaleTargetRef:
+    deploymentName: prom-example-app
+    minReplicaCount: 1   # Optional. Default: 0
+    maxReplicaCount: 10 # Optional. Default: 100
+  triggers:
+  - type: prometheus
+    metadata:
+      serverAddress: http://prometheus-k8s.monitoring:9090
+      metricName: http_requests_total
+      threshold: '10'
+      query: sum(rate(http_requests_total{service="prom-example-app"}[2m]))
