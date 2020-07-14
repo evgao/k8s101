@@ -1,0 +1,19 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: ingress-to-pod02
+spec:
+  podSelector:
+    matchLabels:
+      name: pod02
+  ingress:
+  - from:
+    - podSelector:
+        matchExpressions:
+        - key: "name"
+          operator: "In"
+          values:
+          - pod01
+          - pod03
+            #matchLabels:
+            #access: "true"

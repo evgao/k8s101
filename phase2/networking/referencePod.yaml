@@ -1,0 +1,38 @@
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: pod01
+  labels:
+    name: pod01
+spec:
+  nodeName: u2004
+  containers:
+  - name: test
+    image: evgao/demoapp:v1
+
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: pod02
+  labels:
+    name: pod02
+spec:
+  nodeName: u2005
+  containers:
+  - name: test
+    image: evgao/demoapp:v1
+
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: pod03
+  labels: 
+    name: pod03
+spec:
+  nodeName: u2006
+  containers:
+  - name: test
+    image: evgao/demoapp:v1

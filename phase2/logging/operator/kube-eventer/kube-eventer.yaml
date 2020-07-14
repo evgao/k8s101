@@ -26,7 +26,7 @@ spec:
           command:
             - "/kube-eventer"
             - "--source=kubernetes:https://kubernetes.default"
-            - "--sink=elasticsearch:http://quickstart-es-http.elastic-system.svc.example.com:9200?sniff=false&ver=7&index=k8sevent&esUserName=elastic&esUserSecret=4b3NDxX93n00NpVrP68N8Js0"
+            - "--sink=elasticsearch:http://quickstart-es-http.elastic-system.svc.example.com:9200?sniff=false&ver=7&index=k8sevent&esUserName=elastic&esUserSecret=613x0Jt69nkm2dCoNmW86v8u"
           env:
           # If TZ is assigned, set the TZ value as the time zone
           - name: TZ

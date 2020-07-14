@@ -65,7 +65,7 @@ spec:
         image: fluent/fluentd-kubernetes-daemonset:v1-debian-elasticsearch
         env:
           - name:  FLUENT_ELASTICSEARCH_HOST
-            value: "elasticsearch-logging"
+            value: "quickstart-es-http.elastic-system.svc.example.com"
           - name:  FLUENT_ELASTICSEARCH_PORT
             value: "9200"
           - name: FLUENT_ELASTICSEARCH_SCHEME
@@ -73,17 +73,17 @@ spec:
           # Option to configure elasticsearch plugin with self signed certs
           # ================================================================
           - name: FLUENT_ELASTICSEARCH_SSL_VERIFY
-            value: "true"
+            value: "false"
           # Option to configure elasticsearch plugin with tls
           # ================================================================
-          - name: FLUENT_ELASTICSEARCH_SSL_VERSION
-            value: "TLSv1_2"
+          # - name: FLUENT_ELASTICSEARCH_SSL_VERSION
+          #  value: "TLSv1_2"
           # X-Pack Authentication
           # =====================
           - name: FLUENT_ELASTICSEARCH_USER
             value: "elastic"
           - name: FLUENT_ELASTICSEARCH_PASSWORD
-            value: "changeme"
+            value: "613x0Jt69nkm2dCoNmW86v8u"
         resources:
           limits:
             memory: 200Mi
